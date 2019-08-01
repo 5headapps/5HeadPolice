@@ -1,0 +1,62 @@
+{
+    "name": "5head_police_backend",
+    "version": "0.0.0",
+    "dependencies": {
+        "async": "^3.1.0",
+        "bcryptjs": "*",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "es6-promise": "^4.2.8",
+        "express": "*",
+        "express-oauth-server": "*",
+        "express-rate-limit": "^5.0.0",
+        "gridfs-stream": "*",
+        "moment": "*",
+        "mongoose": "^5.6.2",
+        "socket.io": "*",
+        "uuid": "*"
+    },
+    "devDependencies": {
+        "@types/async": "^3.0.0",
+        "@types/cors": "^2.8.5",
+        "@types/express": "^4.17.0",
+        "@types/express-rate-limit": "^3.3.0",
+        "@types/mocha": "^5.2.7",
+        "@types/mongodb": "^3.1.28",
+        "@types/mongoose": "^5.5.7",
+        "@types/node": "^12.0.10",
+        "@types/request": "^2.48.1",
+        "mocha": "^6.1.4",
+        "request": "*",
+        "ts-loader": "^6.0.4",
+        "ts-node": "^8.3.0",
+        "tslint": "^5.18.0",
+        "typescript": "^3.5.2",
+        "webpack": "^4.35.2",
+        "webpack-cli": "^3.3.5",
+        "webpack-node-externals": "^1.7.2"
+    },
+    "scripts": {
+        "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
+        "watch:serve": "ts-node src/server.ts",
+        "serve": "ts-node src/server.ts",
+        "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+        "buildtsc": "tsc",
+        "build": "webpack --config webpack.config.js --mode production",
+        "prestart": "npm run build",
+        "start": "node .",
+        "test": "mocha out/test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/5headapps/5HeadPolice.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "TBD",
+    "bugs": {
+        "url": "https://github.com/5headapps/5HeadPolice/issues"
+    },
+    "homepage": "https://github.com/5headapps/5HeadPolice#README.md",
+    "description": ""
+}
