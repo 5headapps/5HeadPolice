@@ -54,13 +54,13 @@ const apiLimiter = new rateLimit({
 app.use("/api/", apiLimiter);
 
 // Define Express routes
-// app.use("/", express.static(path.join(__dirname, "../../dist/ts-app")));
+app.use("/", express.static(path.join(__dirname, "../../dist/app")));
 // app.use("/home", express.static(path.join(__dirname, "../../dist/ts-app")));
 // app.use("/project", express.static(path.join(__dirname, "../../dist/ts-app")));
 // app.use("/blog", express.static(path.join(__dirname, "../../dist/ts-app")));
 // app.use("/about", express.static(path.join(__dirname, "../../dist/ts-app")));
 
-console.log(path.join(__dirname, "../../dist/app"))
+// console.log(path.join(__dirname, "../../dist/app"));
 
 // define route for the default home page
 app.get("/", (req, res) => {
@@ -75,3 +75,5 @@ const startServer = function (port: number) {
         console.log(isDev ? "DEV SERVER" : "PROD SERVER", " started at http://localhost:" + port);
     });
 };
+
+startServer(port);
