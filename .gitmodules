@@ -1,0 +1,3 @@
+[submodule "server/src/5HeadConfigs"]
+	path = server/src/5HeadConfigs
+	url = https://github.com/MingyaoLiu/5HeadConfigs.git
