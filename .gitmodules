@@ -1,3 +1,0 @@
-[submodule "server/src/config/MatrixWeb"]
-	path = server/src/config/MatrixWeb
-	url = https://github.com/MingyaoLiu/MatrixWeb
