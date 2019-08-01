@@ -18,17 +18,17 @@ const isDev = fs.existsSync(__dirname + "/isDev");
 const port = isDev ? 8120 : 8200;
 
 // Connect MongoDB
-mongoose.connect(isDev ? config.mongodb_dev : config.mongodb_prod, { useNewUrlParser: true }, (err) => {
-    if (err) {
-        console.log("MongoDB connection ERROR: ", err);
-        startServer(8100);
-    } else {
-        console.log("MongoDB connection SUCCESS");
-        // startServer(port);
-        // temp dev http server for CHN domains
-        startServer(8100);
-    }
-});
+// mongoose.connect(isDev ? config.mongodb_dev : config.mongodb_prod, { useNewUrlParser: true }, (err) => {
+//     if (err) {
+//         console.log("MongoDB connection ERROR: ", err);
+//         startServer(8100);
+//     } else {
+//         console.log("MongoDB connection SUCCESS");
+//         // startServer(port);
+//         // temp dev http server for CHN domains
+//         startServer(8100);
+//     }
+// });
 
 // Express App
 const app = express();
@@ -60,9 +60,11 @@ app.use("/api/", apiLimiter);
 // app.use("/blog", express.static(path.join(__dirname, "../../dist/ts-app")));
 // app.use("/about", express.static(path.join(__dirname, "../../dist/ts-app")));
 
+console.log(path.join(__dirname, "../../dist/app"))
+
 // define route for the default home page
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../app") + "/index.html");
+    res.sendFile(path.join(__dirname, "../../dist/app") + "/index.html");
 });
 
 
@@ -70,6 +72,6 @@ app.get("/", (req, res) => {
 const startServer = function (port: number) {
 
     http.createServer({}, app).listen(port, () => {
-        console.log(isDev ? "DEV SERVER" : "PROD SERVER", " started at http://localhost:", port);
+        console.log(isDev ? "DEV SERVER" : "PROD SERVER", " started at http://localhost:" + port);
     });
 };

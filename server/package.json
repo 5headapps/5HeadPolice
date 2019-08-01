@@ -38,8 +38,8 @@
     },
     "scripts": {
         "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
-        "watch:serve": "ts-node src/server.ts",
-        "serve": "ts-node src/server.ts",
+        "watch:serve": "ts-node src/app.ts",
+        "serve": "ts-node src/app.ts",
         "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
         "buildtsc": "tsc",
         "build": "webpack --config webpack.config.js --mode production",
