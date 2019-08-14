@@ -68,6 +68,47 @@ app.get("/", (req, res) => {
 });
 
 
+const tmi = require('tmi.js');
+
+// Define configuration options
+const opts = {
+    identity: {
+        username: "5HeadPolice",
+        password: config.tmijs_oauth,
+    },
+    channels: [
+        "xqcow",
+    ]
+};
+
+const client = new tmi.client(opts);
+
+client.on('message', onMessageHandler);
+client.on('connected', onConnectedHandler);
+
+client.connect();
+
+function onMessageHandler(target, context, msg, self) {
+    if (self) { return; } // Ignore messages from the bot
+    console.log(msg);
+    // Remove whitespace from chat message
+    const commandName = msg.trim();
+
+}
+
+// Function called when the "dice" command is issued
+function rollDice() {
+    const sides = 6;
+    return Math.floor(Math.random() * sides) + 1;
+}
+
+// Called every time the bot connects to Twitch chat
+function onConnectedHandler(addr, port) {
+    console.log(`* Connected to ${addr}:${port}`);
+}
+
+
+
 // start the Express server
 const startServer = function (port: number) {
 
