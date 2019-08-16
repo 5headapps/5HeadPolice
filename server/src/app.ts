@@ -10,7 +10,9 @@ import mongoose from "mongoose";
 import path from "path";
 import tls from "tls";
 import { config } from "./5HeadConfigs/config";
-
+import { ChatModule } from "./chat_module";
+import { MongoChatDataAccess } from "./dataaccess/mongoChatDataAccess";
+import { ChatRoutes } from "./routes/chatRoutes";
 // Check Env
 const isDev = fs.existsSync(__dirname + "/isDev");
 
@@ -18,17 +20,19 @@ const isDev = fs.existsSync(__dirname + "/isDev");
 const port = isDev ? 8120 : 8200;
 
 // Connect MongoDB
-// mongoose.connect(isDev ? config.mongodb_dev : config.mongodb_prod, { useNewUrlParser: true }, (err) => {
-//     if (err) {
-//         console.log("MongoDB connection ERROR: ", err);
-//         startServer(8100);
-//     } else {
-//         console.log("MongoDB connection SUCCESS");
-//         // startServer(port);
-//         // temp dev http server for CHN domains
-//         startServer(8100);
-//     }
-// });
+mongoose.connect(isDev ? config.mongodb_dev : config.mongodb_prod, { useNewUrlParser: true }, (err) => {
+    if (err) {
+        console.log("MongoDB connection ERROR: ", err);
+        // startServer(port);
+    } else {
+        console.log("MongoDB connection SUCCESS");
+        // start twitch chat
+        new ChatModule().getTwitchChat();
+        // startServer(port);
+        // temp dev http server for CHN domains
+        startServer(port);
+    }
+});
 
 // Express App
 const app = express();
@@ -67,46 +71,8 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../../dist/app") + "/index.html");
 });
 
-
-const tmi = require('tmi.js');
-
-// Define configuration options
-const opts = {
-    identity: {
-        username: "5HeadPolice",
-        password: config.tmijs_oauth,
-    },
-    channels: [
-        "xqcow",
-    ]
-};
-
-const client = new tmi.client(opts);
-
-client.on('message', onMessageHandler);
-client.on('connected', onConnectedHandler);
-
-client.connect();
-
-function onMessageHandler(target, context, msg, self) {
-    if (self) { return; } // Ignore messages from the bot
-    console.log(msg);
-    // Remove whitespace from chat message
-    const commandName = msg.trim();
-
-}
-
-// Function called when the "dice" command is issued
-function rollDice() {
-    const sides = 6;
-    return Math.floor(Math.random() * sides) + 1;
-}
-
-// Called every time the bot connects to Twitch chat
-function onConnectedHandler(addr, port) {
-    console.log(`* Connected to ${addr}:${port}`);
-}
-
+// enable custom routes
+app.use(new ChatRoutes(new MongoChatDataAccess()).getRoutes());
 
 
 // start the Express server
@@ -116,5 +82,3 @@ const startServer = function (port: number) {
         console.log(isDev ? "DEV SERVER" : "PROD SERVER", " started at http://localhost:" + port);
     });
 };
-
-startServer(port);
